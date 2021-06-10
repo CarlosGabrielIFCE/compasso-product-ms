@@ -7,6 +7,7 @@ import java.util.Objects;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -79,6 +80,22 @@ public class ProductController {
 		}
 		
 		return new ResponseEntity<>(Objects.isNull(productUpdated) ? map: productUpdated, Objects.isNull(productUpdated) ? HttpStatus.BAD_REQUEST : HttpStatus.CREATED);
+	}
+	
+	/**
+	 * List a Product by Id
+	 * @param id
+	 * @return
+	 */
+	@GetMapping("/products/{id}")
+	public ResponseEntity<?> getProduct(@PathVariable(value="id") long id) {
+		Product productToGet = productRepository.findById(id);
+		
+		if (Objects.isNull(productToGet)) {
+			return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
+		}
+		
+		return new ResponseEntity<>(productToGet, HttpStatus.OK);
 	}
 
 }
