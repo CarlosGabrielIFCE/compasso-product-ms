@@ -6,4 +6,6 @@ public interface ProductService {
 	
 	public abstract Product save(Product product);
 	
+	public abstract Product update(Product product);
+	
 }

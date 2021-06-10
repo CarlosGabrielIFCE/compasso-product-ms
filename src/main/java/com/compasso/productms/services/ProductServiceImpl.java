@@ -21,6 +21,15 @@ public class ProductServiceImpl implements ProductService {
 		return productRepository.save(product);
 	}
 	
+	@Override
+	public Product update(Product product) {
+		if (!verifyFields(product)) {
+			return null;
+		}
+		
+		return productRepository.save(product);
+	}
+	
 	public Boolean verifyFields(Product product) {
 		if (product.getName().isEmpty()) {
 			return false;
