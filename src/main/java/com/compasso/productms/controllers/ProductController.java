@@ -1,6 +1,7 @@
 package com.compasso.productms.controllers;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 
@@ -96,6 +97,15 @@ public class ProductController {
 		}
 		
 		return new ResponseEntity<>(productToGet, HttpStatus.OK);
+	}
+	
+	/**
+	 * List all products
+	 * @return
+	 */
+	@GetMapping("/products")
+	public List<Product> getProducts() {
+		return productRepository.findAll();
 	}
 
 }
