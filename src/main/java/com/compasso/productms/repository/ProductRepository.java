@@ -4,7 +4,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 import com.compasso.productms.models.Product;
 
-public interface ProductRepository extends JpaRepository<Product, String>{
+public interface ProductRepository extends JpaRepository<Product, Long>{
 	
 	Product findById(long id);
 

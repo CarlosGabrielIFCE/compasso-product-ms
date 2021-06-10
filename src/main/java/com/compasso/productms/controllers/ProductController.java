@@ -8,6 +8,7 @@ import java.util.Objects;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -106,6 +107,24 @@ public class ProductController {
 	@GetMapping("/products")
 	public List<Product> getProducts() {
 		return productRepository.findAll();
+	}
+	
+	/**
+	 * Delete a product
+	 * @param product
+	 * @return
+	 */
+	@DeleteMapping("/products/{id}")
+	public ResponseEntity<?> deleteProduct(@PathVariable(value="id") long id) {
+		Product productToDelete = productRepository.findById(id);
+		
+		if (Objects.isNull(productToDelete)) {
+			return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
+		}
+		
+		productRepository.deleteById(id);
+		
+		return new ResponseEntity<>(null, HttpStatus.OK);
 	}
 
 }
