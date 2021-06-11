@@ -1,12 +1,8 @@
 package com.compasso.productms.controllers;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
-import java.util.Objects;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -23,15 +19,12 @@ import com.compasso.productms.repository.ProductRepository;
 import com.compasso.productms.services.ProductService;
 
 /**
- * Controller for Product Entity
+ * Controller da Entidade Product
  * @author Carlos Gabriel
  *
  */
 @RestController
 public class ProductController {
-	
-	private static final int BAD_REQUEST = 400;
-	private static final int NOT_FOUND = 404;
 	
 	@Autowired
 	ProductService productService;
@@ -40,70 +33,43 @@ public class ProductController {
 	ProductRepository productRepository;
 	
 	/**
-	 * Save a product
+	 * Função do Controller que é chamada
+	 * no momento de salvar um produto
 	 * @param product
 	 * @return
 	 */
 	@PostMapping("/products")
 	public ResponseEntity<?> saveProduct(@RequestBody Product product) {
-		Map<String, Object> map = new HashMap<>();
-		
-		Product productCreated = productService.save(product);
-		
-		if (Objects.isNull(productCreated)) {
-			map.put("status_code", BAD_REQUEST);
-			map.put("message", "Error on creating a Product.");
-		}
-		
-		return new ResponseEntity<>(Objects.isNull(productCreated) ? map: productCreated, Objects.isNull(productCreated) ? HttpStatus.BAD_REQUEST : HttpStatus.CREATED);
-		
+		return productService.save(product);
 	}
 	
 	/**
-	 * Update a product receiving the 
-	 * id on header
+	 * Função do Controller que é chamada
+	 * no momento de atualizar um produto
 	 * @param id
 	 * @return
 	 */
 	@PutMapping("/products/{id}")
 	public ResponseEntity<?> updateProduct(@PathVariable(value="id") long id, @RequestBody Product product) {
-		Map<String, Object> map = new HashMap<>();
-		product.setId(id);
-		Product productToUpdate = productRepository.findById(id);
-		
-		if (Objects.isNull(productToUpdate)) {
-			map.put("status_code", NOT_FOUND);
-			map.put("message", "Product not found.");
-		}
-		
-		Product productUpdated = productService.update(product);
-		
-		if (Objects.isNull(productUpdated)) {
-			map.put("status_code", BAD_REQUEST);
-			map.put("message", "Error on updating a Product.");
-		}
-		
-		return new ResponseEntity<>(Objects.isNull(productUpdated) ? map: productUpdated, Objects.isNull(productUpdated) ? HttpStatus.BAD_REQUEST : HttpStatus.CREATED);
+		return productService.update(id, product);
 	}
 	
 	/**
-	 * List a Product by Id
+	 * Função do Controller que é chamada
+	 * no momento de buscar um produto
+	 * pelo seu id
 	 * @param id
 	 * @return
 	 */
 	@GetMapping("/products/{id}")
 	public ResponseEntity<?> getProduct(@PathVariable(value="id") long id) {
-		Product productToGet = productRepository.findById(id);
-		
-		if (Objects.isNull(productToGet)) {
-			return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
-		}
-		
-		return new ResponseEntity<>(productToGet, HttpStatus.OK);
+		return productService.findById(id);
 	}
 	
 	/**
-	 * List all products
+	 * Função do Controller que é chamada
+	 * no momento de buscar todos os
+	 * produtos
 	 * @return
 	 */
 	@GetMapping("/products")
@@ -112,23 +78,25 @@ public class ProductController {
 	}
 	
 	/**
-	 * Delete a product
+	 * Função do Controller que é chamada
+	 * no momento de deletar um produto
 	 * @param product
 	 * @return
 	 */
 	@DeleteMapping("/products/{id}")
 	public ResponseEntity<?> deleteProduct(@PathVariable(value="id") long id) {
-		Product productToDelete = productRepository.findById(id);
-		
-		if (Objects.isNull(productToDelete)) {
-			return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
-		}
-		
-		productRepository.deleteById(id);
-		
-		return new ResponseEntity<>(null, HttpStatus.OK);
+		return productService.delete(id);
 	}
 	
+	/**
+	 * Função do Controller que é chamada
+	 * no momento de buscar um produto
+	 * pelo preço ou pelos campos
+	 * @param min_value
+	 * @param max_value
+	 * @param q
+	 * @return
+	 */
 	@GetMapping("/products/search")
 	@ResponseBody
 	public List<Product> getByParameters(@RequestParam(required=false) String min_value, @RequestParam(required=false) String max_value, @RequestParam(required=false) String q) {
