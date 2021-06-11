@@ -4,12 +4,14 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -18,12 +20,18 @@ import com.compasso.productms.models.Product;
 import com.compasso.productms.repository.ProductRepository;
 import com.compasso.productms.services.ProductService;
 
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+
 /**
  * Controller da Entidade Product
  * @author Carlos Gabriel
  *
  */
 @RestController
+@RequestMapping(value="/")
+@Api(value="API Rest Products")
+@CrossOrigin(origins="*")
 public class ProductController {
 	
 	@Autowired
@@ -38,7 +46,8 @@ public class ProductController {
 	 * @param product
 	 * @return
 	 */
-	@PostMapping("/products")
+	@PostMapping("products")
+	@ApiOperation(value="Verifica os campos do produto, caso válidos, realiza a inserção no banco.")
 	public ResponseEntity<?> saveProduct(@RequestBody Product product) {
 		return productService.save(product);
 	}
@@ -49,7 +58,8 @@ public class ProductController {
 	 * @param id
 	 * @return
 	 */
-	@PutMapping("/products/{id}")
+	@PutMapping("products/{id}")
+	@ApiOperation(value="Verifica se o produto e os seus campos existem e são válidos, caso ok, realiza a atualização no banco.")
 	public ResponseEntity<?> updateProduct(@PathVariable(value="id") long id, @RequestBody Product product) {
 		return productService.update(id, product);
 	}
@@ -61,7 +71,8 @@ public class ProductController {
 	 * @param id
 	 * @return
 	 */
-	@GetMapping("/products/{id}")
+	@GetMapping("products/{id}")
+	@ApiOperation(value="Busca um produto pelo seu id.")
 	public ResponseEntity<?> getProduct(@PathVariable(value="id") long id) {
 		return productService.findById(id);
 	}
@@ -72,7 +83,8 @@ public class ProductController {
 	 * produtos
 	 * @return
 	 */
-	@GetMapping("/products")
+	@GetMapping("products")
+	@ApiOperation(value="Busca todos os produtos presentes no banco de dados.")
 	public List<Product> getProducts() {
 		return productRepository.findAll();
 	}
@@ -83,7 +95,8 @@ public class ProductController {
 	 * @param product
 	 * @return
 	 */
-	@DeleteMapping("/products/{id}")
+	@DeleteMapping("products/{id}")
+	@ApiOperation(value="Verifica se o produto existe, caso exista, realiza a deleção no banco.")
 	public ResponseEntity<?> deleteProduct(@PathVariable(value="id") long id) {
 		return productService.delete(id);
 	}
@@ -97,8 +110,9 @@ public class ProductController {
 	 * @param q
 	 * @return
 	 */
-	@GetMapping("/products/search")
+	@GetMapping("products/search")
 	@ResponseBody
+	@ApiOperation(value="Realiza a busca de produtos no banco pelos campos min_value, max_value e q.")
 	public List<Product> getByParameters(@RequestParam(required=false) String min_value, @RequestParam(required=false) String max_value, @RequestParam(required=false) String q) {
 		return productService.findByDateAndNameOrDescription(min_value, max_value, q);
 	}
