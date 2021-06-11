@@ -1,5 +1,9 @@
 package com.compasso.productms.services;
 
+import java.math.BigDecimal;
+import java.util.List;
+import java.util.Objects;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -40,6 +44,17 @@ public class ProductServiceImpl implements ProductService {
 		}
 		
 		return true;
+	}
+	
+	public List<Product> findByDateAndNameOrDescription(String min_value, String max_value, String q) {
+		BigDecimal minValue = !Objects.isNull(min_value) ? new BigDecimal(min_value) : new BigDecimal(0);
+		BigDecimal maxValue = !Objects.isNull(max_value) ? new BigDecimal(max_value) : new BigDecimal(1000000);
+		
+		if (Objects.isNull(q)) {
+			return productRepository.findByPriceFields(minValue, maxValue);
+		}else {
+			return productRepository.findByAllFields(minValue, maxValue, q);
+		}
 	}
 
 }

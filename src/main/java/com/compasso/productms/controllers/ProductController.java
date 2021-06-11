@@ -14,6 +14,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.compasso.productms.models.Product;
@@ -125,6 +127,12 @@ public class ProductController {
 		productRepository.deleteById(id);
 		
 		return new ResponseEntity<>(null, HttpStatus.OK);
+	}
+	
+	@GetMapping("/products/search")
+	@ResponseBody
+	public List<Product> getByParameters(@RequestParam(required=false) String min_value, @RequestParam(required=false) String max_value, @RequestParam(required=false) String q) {
+		return productService.findByDateAndNameOrDescription(min_value, max_value, q);
 	}
 
 }
