@@ -24,6 +24,25 @@ public class Product implements Serializable{
 	private String description;
 	
 	private BigDecimal price;
+	
+	public Product() {
+		
+	}
+
+	public Product(long id, String name, String description, BigDecimal price) {
+		super();
+		this.id = id;
+		this.name = name;
+		this.description = description;
+		this.price = price;
+	}
+
+	public Product(String name, String description, BigDecimal price) {
+		super();
+		this.name = name;
+		this.description = description;
+		this.price = price;
+	}
 
 	public long getId() {
 		return id;
