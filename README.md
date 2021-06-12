@@ -16,7 +16,7 @@ A Aplicação foi montada utilizando o Spring Boot, com o Padrão MVC de organiz
 Foi criada uma Entidade:
   - Produto - Entidade relacionada à um produto, com nome, descrição, e preço.
   
-Foi criado o Repositorie para flexibilizar a criação dos métodos do CRUD da entidade.
+Foi criado o Repository para flexibilizar a criação dos métodos do CRUD da entidade.
 Foi criada também uma interface de serviço, e um Service Implementation para lidar com as lógicas de negócio.
 Por último, foi criado o Controller, com as Anotações necessárias para que seja possível realizar requisições REST.
 
