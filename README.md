@@ -67,6 +67,11 @@ Endpoints importantes da aplicação:
 	
 ```
 
+Você pode visualizar também através da documentação do Swagger:
+
+ - Url de Desenvolvimento: ```http://localhost:9999/swagger-ui.html```
+ - Url de Produção: ```https://compass-products-backend.herokuapp.com/swagger-ui.html```
+
 ### Organização do Projeto
 
 Para a organização da demanda, foi criado um quadro no Trello para melhor organizar o que deveria ser feito
