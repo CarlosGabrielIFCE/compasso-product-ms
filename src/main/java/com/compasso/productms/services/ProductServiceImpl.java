@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -56,9 +57,9 @@ public class ProductServiceImpl implements ProductService {
 	 * Atualiza o produto na base
 	 */
 	@Override
-	public ResponseEntity<?> update(long id, Product product) {
+	public ResponseEntity<?> update(String id, Product product) {
 		Map<String, Object> map = new HashMap<>();
-		Product productToUpdate = productRepository.findById(id);
+		Optional<Product> productToUpdate = productRepository.findById(id);
 		
 		if (Objects.isNull(productToUpdate)) {
 			map.put("status_code", NOT_FOUND);
@@ -83,8 +84,8 @@ public class ProductServiceImpl implements ProductService {
 	 * Método responsável por buscar um produto
 	 * Caso não encontrado, retorna um HTTP 404
 	 */
-	public ResponseEntity<?> findById(long id) {
-		Product productToGet = productRepository.findById(id);
+	public ResponseEntity<?> findById(String id) {
+		Optional<Product> productToGet = productRepository.findById(id);
 		
 		if (Objects.isNull(productToGet)) {
 			return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
@@ -98,8 +99,8 @@ public class ProductServiceImpl implements ProductService {
 	 * Verifica se o produto existe, caso valido
 	 * deleta o produto na base
 	 */
-	public ResponseEntity<?> delete(long id) {
-		Product productToDelete = productRepository.findById(id);
+	public ResponseEntity<?> delete(String id) {
+		Optional<Product> productToDelete = productRepository.findById(id);
 		
 		if (Objects.isNull(productToDelete)) {
 			return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);

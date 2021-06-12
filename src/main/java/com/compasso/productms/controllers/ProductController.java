@@ -60,7 +60,7 @@ public class ProductController {
 	 */
 	@PutMapping("products/{id}")
 	@ApiOperation(value="Verifica se o produto e os seus campos existem e são válidos, caso ok, realiza a atualização no banco.")
-	public ResponseEntity<?> updateProduct(@PathVariable(value="id") long id, @RequestBody Product product) {
+	public ResponseEntity<?> updateProduct(@PathVariable(value="id") String id, @RequestBody Product product) {
 		return productService.update(id, product);
 	}
 	
@@ -73,7 +73,7 @@ public class ProductController {
 	 */
 	@GetMapping("products/{id}")
 	@ApiOperation(value="Busca um produto pelo seu id.")
-	public ResponseEntity<?> getProduct(@PathVariable(value="id") long id) {
+	public ResponseEntity<?> getProduct(@PathVariable(value="id") String id) {
 		return productService.findById(id);
 	}
 	
@@ -97,7 +97,7 @@ public class ProductController {
 	 */
 	@DeleteMapping("products/{id}")
 	@ApiOperation(value="Verifica se o produto existe, caso exista, realiza a deleção no banco.")
-	public ResponseEntity<?> deleteProduct(@PathVariable(value="id") long id) {
+	public ResponseEntity<?> deleteProduct(@PathVariable(value="id") String id) {
 		return productService.delete(id);
 	}
 	

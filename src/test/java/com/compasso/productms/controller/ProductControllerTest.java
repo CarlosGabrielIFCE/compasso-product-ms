@@ -37,9 +37,9 @@ public class ProductControllerTest {
 	@MockBean
 	ProductRepository productRepository;
 
-	Product product1 = new Product(1, "macBookPro", "Computador", new BigDecimal(15000));
-	Product product2 = new Product(2, "iPhone12", "Celular", new BigDecimal(12000));
-	Product product3 = new Product(3, "watchOS", "Relógio", new BigDecimal(1500));
+	Product product1 = new Product("1", "macBookPro", "Computador", new BigDecimal(15000));
+	Product product2 = new Product("2", "iPhone12", "Celular", new BigDecimal(12000));
+	Product product3 = new Product("3", "watchOS", "Relógio", new BigDecimal(1500));
 
 	/**
 	 * Teste de busca por todos os produtos
@@ -66,7 +66,7 @@ public class ProductControllerTest {
 	 */
 	@Test
 	public void getProductById_success() throws Exception {
-		Mockito.when(productRepository.findById(product1.getId())).thenReturn(product1);
+		Mockito.when(productRepository.getById(product1.getId())).thenReturn(product1);
 
 		mockMvc.perform(MockMvcRequestBuilders.get("/products/1").contentType(MediaType.APPLICATION_JSON))
 				.andExpect(status().isOk()).andExpect(jsonPath("$", notNullValue()))
@@ -97,9 +97,9 @@ public class ProductControllerTest {
 	 */
 	@Test
 	public void updateProduct_success() throws Exception {
-		Product product = new Product(4, "macMini", "Computador", new BigDecimal(3000));
+		Product product = new Product("4", "macMini", "Computador", new BigDecimal(3000));
 
-	    Mockito.when(productRepository.findById(product.getId())).thenReturn(product);
+	    Mockito.when(productRepository.getById(product.getId())).thenReturn(product);
 	    Mockito.when(productRepository.save(product)).thenReturn(product);
 
 	    MockHttpServletRequestBuilder mockRequest = MockMvcRequestBuilders.post("/products")
@@ -119,7 +119,7 @@ public class ProductControllerTest {
 	 */
 	@Test
 	public void deleteProductById_success() throws Exception {
-	    Mockito.when(productRepository.findById(product2.getId())).thenReturn(product2);
+	    Mockito.when(productRepository.getById(product2.getId())).thenReturn(product2);
 
 	    mockMvc.perform(MockMvcRequestBuilders
 	            .delete("/products/2")
