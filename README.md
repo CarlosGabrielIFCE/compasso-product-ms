@@ -51,14 +51,14 @@ Endpoints importantes da aplicação:
 			{
 				"name": "string",
 				"description": "string",
-        "price": "number"
+        			"price": "number"
 			}
 	
 	- PUT - /products/{id}
 			{
 				"name": "string",
 				"description": "string",
-        "price": "number"
+        			"price": "number"
 			}
 	
 	- DELETE BY ID - /products/{id}
